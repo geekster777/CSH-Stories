@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Stories</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      {% include 'header.html' %}
+      <div class="inner">
+        {% block body %}{% endblock %}
+      </div>
+      {% include 'footer.html' %}
+    </div>
+  </body>
+</html>

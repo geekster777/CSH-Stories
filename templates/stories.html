@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Stories</h2>
+  <ul id="story-list">
+    {% for story in stories %}
+      <li class="story">
+        <h2>{{ story.title }}</h2>
+        <div class="story-content">
+          {{ story.body|safe }}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

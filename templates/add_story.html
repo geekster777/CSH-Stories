@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Add Story</h2>
+  <form action="/add_story/" method="POST">
+    <label>
+      Author<br>
+      <input type="text" name="author" />
+    </label><br>
+    <label>
+      Title<br>
+      <input type="text" name="title" />
+    </label><br>
+    <label>
+      Content<br>
+      <textarea name="body"></textarea><br>
+    </label>
+    <input type="submit" value="Submit" />
+  </form>
+{% endblock %}
