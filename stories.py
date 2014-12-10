@@ -66,6 +66,13 @@ def comment_story(story_id):
             db.session.add(user)
             comment.author = user
 
+        if request.form['reply_comment'].isdigit():
+            comment_id = int(request.form['reply_comment'])
+            comment_list = Comment.query.filter_by(id=comment_id)
+            if comment_list.count() > 0:
+                comment.comment_id = comment_list.first().id
+                comment.story = None
+
         db.session.add(comment)
         db.session.commit()
 

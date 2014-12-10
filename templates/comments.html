@@ -3,14 +3,17 @@
     {% for comment in comments %}
       <li>
         {{ comment.body|safe }}
+        <br>
         <a href="/users/{{ comment.author.name }}/">{{ comment.author.name }}</a>
         <a class="reply-btn">Reply</a>
+        <br>
+        Comment id: {{ comment.id }}
 
         {# 
           Fuck this section of code. It is the devil, and with it I shall burn!
         #}
-        {% if comment.children is defined %}
-          {% with comments = comment.children %}
+        {% if comment.comments is defined %}
+          {% with comments = comment.comments %}
             {% include 'comments.html' %}
           {% endwith %}
         {% endif %}
