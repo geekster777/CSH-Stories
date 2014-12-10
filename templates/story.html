@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>{{ story.title }}</h2>
+  <div class="story-content">
+    {{ story.body|safe }}
+    <a href="/users/{{ story.author.name }}">{{ story.author.name }}</a>
+  </div>
+
+  {% with comments = story.comments %}
+    {% include 'comments.html' %}
+  {% endwith %}
+{% endblock %}

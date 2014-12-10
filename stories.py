@@ -1,6 +1,7 @@
 import os, sys, datetime
 from settings import db_config
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import Flask, request, session, g, redirect, url_for, abort
+from flask import render_template, flash
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -9,45 +10,71 @@ db = SQLAlchemy(app)
 
 class Story(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    author = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(100), unique=True)
     body = db.Column(db.Text)
     pub_date = db.Column(db.DateTime)
+    comments = db.relationship('Comment', backref='story', lazy='dynamic')
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(100))
+    story_id = db.Column(db.Integer, db.ForeignKey('story.id'))
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comments = db.relationship('Comment', lazy='dynamic')
     body = db.Column(db.Text)
-    story = db.relationship('Story', db.backref('comments', lazy='dynamic'))
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.Integer)
+    name = db.Column(db.String(100))
+    stories = db.relationship('Story', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', stories=Story.query.all())
 
 @app.route('/stories/')
 def show_stories():
     stories = Story.query.all()
-    return render_template('articles.html',stories=stories)
+    return render_template('stories.html',stories=stories)
 
-@app.route('/stories/<story_id>')
+@app.route('/stories/<story_id>/')
 def show_story(story_id):
     story_list = Story.query.filter_by(id=story_id)
-    if story_list.length > 0:
-        return render_template('article.html',story=story_list.first())
+    if story_list.count() > 0:
+        return render_template('story.html',story=story_list.first())
     else:
         return error_404()
 
 @app.route('/add_story/', methods=['GET','POST'])
 def add_story():
+    # add a story to the database
     if request.method == 'POST':
+        # create a new story
         story = Story()
         story.title = request.form['title']
         story.body = request.form['body']
-        story.author = request.form['author']
         story.pub_date = datetime.datetime.now()
+        user_list = User.query.filter_by(name=request.form['author'])
+
+        # find the author by name.
+        if user_list.count() > 0:
+            story.author = user_list.first()
+
+        #if the author does not exist, create a new one
+        else:
+            author = User()
+            author.name = request.form['author']
+            db.session.add(author)
+            story.author = author
+
         db.session.add(story)
-        db.commit()
+        db.session.commit()
         return render_template('story_added.html')
+
+    # ask the user to create a story if the request is not a POST request
     else:
         return render_template('add_story.html')
 

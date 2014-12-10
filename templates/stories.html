@@ -4,7 +4,7 @@
   <ul id="story-list">
     {% for story in stories %}
       <li class="story">
-        <h2>{{ story.title }}</h2>
+        <h2><a href="/stories/{{ story.id }}/">{{ story.title }}</a></h2>
         <div class="story-content">
           {{ story.body|safe }}
         </div>

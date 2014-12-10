@@ -1,0 +1,23 @@
+{% if comments is defined %}
+  <ul class="comments">
+    {% for comment in comments %}
+      <li>
+        {{ comment.body|safe }}
+        <a href="/users/{{ comment.author.name }}/">{{ comment.author.name }}</a>
+        <a class="reply-btn">Reply</a>
+
+        {# 
+          Fuck this section of code. It is the devil, and with it I shall burn!
+        #}
+        {% if comment.children is defined %}
+          {% with comments = comment.children %}
+            {% include 'comments.html' %}
+          {% endwith %}
+        {% endif %}
+        {#
+          End this horrible section of code
+        #}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
