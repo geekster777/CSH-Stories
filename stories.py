@@ -48,6 +48,31 @@ def show_story(story_id):
     else:
         return error_404()
 
+@app.route('/stories/<story_id>/comment/', methods=['POST'])
+def comment_story(story_id):
+    username = request.form['author']
+    user_list = User.query.filter_by(name=username)
+
+    story_list = Story.query.filter_by(id=story_id)
+    if story_list.count() > 0:
+        comment = Comment()
+        comment.body = request.form['body']
+        comment.story = story_list.first()
+        if user_list.count() > 0:
+            comment.author = user_list.first()
+        else:
+            user = User()
+            user.name = username
+            db.session.add(user)
+            comment.author = user
+
+        db.session.add(comment)
+        db.session.commit()
+
+        return show_story(story_id)
+    else:
+        return error_404()
+
 @app.route('/add_story/', methods=['GET','POST'])
 def add_story():
     # add a story to the database

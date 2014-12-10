@@ -5,8 +5,22 @@
     {{ story.body|safe }}
     <a href="/users/{{ story.author.name }}">{{ story.author.name }}</a>
   </div>
-
+  
+  <h4>Comments</h4>
   {% with comments = story.comments %}
     {% include 'comments.html' %}
   {% endwith %}
+  
+  <h4>Add a comment</h4>
+  <form action="/stories/{{ story.id }}/comment/" method="POST">
+    <label>
+      Author<br>
+      <input type="text" name="author" />
+    </label><br>
+    <label>
+      Comment<br>
+      <textarea name="body"></textarea>
+    </label><br>
+    <input type="submit" value="Submit" />
+  </form>
 {% endblock %}
