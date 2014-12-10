@@ -1,4 +1,4 @@
-{% if comments is defined %}
+{% macro show_comments(comments) %}
   <ul class="comments">
     {% for comment in comments %}
       <li>
@@ -8,19 +8,12 @@
         <a class="reply-btn">Reply</a>
         <br>
         Comment id: {{ comment.id }}
-
-        {# 
-          Fuck this section of code. It is the devil, and with it I shall burn!
-        #}
+        
         {% if comment.comments is defined %}
-          {% with comments = comment.comments %}
-            {% include 'comments.html' %}
-          {% endwith %}
+          {{ show_comments(comment.comments) }}
         {% endif %}
-        {#
-          End this horrible section of code
-        #}
+
       </li>
     {% endfor %}
   </ul>
-{% endif %}
+{% endmacro %}

@@ -7,9 +7,9 @@
   </div>
   
   <h4>Comments</h4>
-  {% with comments = story.comments %}
-    {% include 'comments.html' %}
-  {% endwith %}
+  {% from 'comments.html' import show_comments %}
+  {{ show_comments(story.comments) }}
+
   
   <h4>Add a comment</h4>
   <form action="/stories/{{ story.id }}/comment/" method="POST">
