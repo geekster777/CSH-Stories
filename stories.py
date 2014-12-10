@@ -78,6 +78,14 @@ def add_story():
     else:
         return render_template('add_story.html')
 
+@app.route('/users/<username>/')
+def show_user(username):
+    user_list = User.query.filter_by(name=username)
+    if user_list.count() == 0:
+        return error_404()
+    else:
+        return render_template('user.html', user = user_list.first())
+
 def error_404():
     return render_template('404.html')
 
