@@ -4,11 +4,19 @@
   <div class="story-content">
     {{ story.body|safe }}
     <a href="/users/{{ story.author.name }}">{{ story.author.name }}</a>
+    Score: {{ story.score }}
+    <form action="/stories/{{ story.id }}/upvote/" method="POST">
+      <label>
+        Username:
+        <input type="text" name="author" />
+      </label>
+      <input type="submit" value="Upvote" />
+    </form>
   </div>
   
   <h4>Comments</h4>
   {% from 'comments.html' import show_comments %}
-  {{ show_comments(story.comments) }}
+  {{ show_comments(story.comments, story) }}
 
   
   <h4>Add a comment</h4>

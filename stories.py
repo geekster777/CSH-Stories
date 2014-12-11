@@ -15,6 +15,7 @@ class Story(db.Model):
     body = db.Column(db.Text)
     pub_date = db.Column(db.DateTime)
     comments = db.relationship('Comment', backref='story', lazy='dynamic')
+    score = db.Column(db.Integer, default=0)
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,6 +24,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comments = db.relationship('Comment', lazy='dynamic')
     body = db.Column(db.Text)
+    score = db.Column(db.Integer, default=0)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +32,13 @@ class User(db.Model):
     name = db.Column(db.String(100))
     stories = db.relationship('Story', backref='author', lazy='dynamic')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    upvotes = db.relationship('Upvote', backref='author', lazy='dynamic')
+
+class Upvote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    story_id = db.Column(db.Integer)
+    comment_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 @app.route('/')
 def home():
@@ -79,6 +88,46 @@ def comment_story(story_id):
         return show_story(story_id)
     else:
         return error_404()
+
+@app.route('/stories/<story_id>/upvote/', methods=['POST'])
+def upvote_story(story_id):
+    upvote = Upvote()
+    
+    username = request.form['author']
+    user = User.query.filter_by(name=username).first()
+    if user is not None:
+        upvote.author = user
+    else:
+        return error_404()
+    
+    if 'comment' in request.form and request.form['comment'].isdigit():
+        comment = Comment.query.filter_by(id=int(request.form['comment'])).first()
+        if comment is not None:
+            upvote.comment_id = comment.id
+        else:
+            return error_404()
+    else:
+        story = Story.query.filter_by(id=story_id).first()
+        if story is not None:
+            upvote.story_id = story.id
+        else:
+            return error_404()
+    
+    if Upvote.query.filter_by(comment_id=upvote.comment_id, story_id=upvote.story_id, user_id=user.id).count() > 1:
+        del upvote
+        return show_story(story_id)
+    else:
+        #increment the score of the associated comment/story
+        if upvote.story_id is not None:
+            story = Story.query.filter_by(id=upvote.story_id).first()
+            story.score += 1
+        elif upvote.comment_id is not None:
+            comment = Comment.query.filter_by(id=upvote.comment_id).first()
+            comment.score += 1
+
+        db.session.add(upvote)
+        db.session.commit()
+        return show_story(story_id)
 
 @app.route('/add_story/', methods=['GET','POST'])
 def add_story():

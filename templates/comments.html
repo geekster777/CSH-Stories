@@ -1,4 +1,4 @@
-{% macro show_comments(comments) %}
+{% macro show_comments(comments, story) %}
   <ul class="comments">
     {% for comment in comments %}
       <li>
@@ -9,8 +9,18 @@
         <br>
         Comment id: {{ comment.id }}
         
+        Score: {{ comment.score }}
+        <form action="/stories/{{ story.id }}/upvote/" method="POST">
+          <label>
+            Username:
+            <input type="text" name="author" />
+          </label>
+          <input type="hidden" name="comment" value="{{comment.id}}" />
+          <input type="submit" value="Upvote" />
+        </form>
+
         {% if comment.comments is defined %}
-          {{ show_comments(comment.comments) }}
+          {{ show_comments(comment.comments, story) }}
         {% endif %}
 
       </li>
