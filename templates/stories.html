@@ -2,7 +2,7 @@
 {% block body %}
   <h2>Stories</h2>
   <ul id="story-list">
-    {% for story in stories %}
+    {% for story in stories|sort(attribute='score', reverse=True) %}
       <li class="story">
         <h2><a href="/stories/{{ story.id }}/">{{ story.title }}</a></h2>
         <div class="story-content">

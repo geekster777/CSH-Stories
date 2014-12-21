@@ -51,24 +51,24 @@ def show_stories():
 
 @app.route('/stories/<story_id>/')
 def show_story(story_id):
-    story_list = Story.query.filter_by(id=story_id)
-    if story_list.count() > 0:
-        return render_template('story.html',story=story_list.first())
+    story = Story.query.filter_by(id=story_id).first()
+    if story is not None:
+        return render_template('story.html',story=story)
     else:
         return error_404()
 
 @app.route('/stories/<story_id>/comment/', methods=['POST'])
 def comment_story(story_id):
     username = request.form['author']
-    user_list = User.query.filter_by(name=username)
+    user = User.query.filter_by(name=username).first()
 
-    story_list = Story.query.filter_by(id=story_id)
-    if story_list.count() > 0:
+    story = Story.query.filter_by(id=story_id).first()
+    if story is not None:
         comment = Comment()
         comment.body = request.form['body']
-        comment.story = story_list.first()
-        if user_list.count() > 0:
-            comment.author = user_list.first()
+        comment.story = story
+        if user is not None:
+            comment.author = user
         else:
             user = User()
             user.name = username
@@ -77,9 +77,9 @@ def comment_story(story_id):
 
         if request.form['reply_comment'].isdigit():
             comment_id = int(request.form['reply_comment'])
-            comment_list = Comment.query.filter_by(id=comment_id)
-            if comment_list.count() > 0:
-                comment.comment_id = comment_list.first().id
+            comment = Comment.query.filter_by(id=comment_id).first()
+            if comment is not None:
+                comment.comment_id = comment.id
                 comment.story = None
 
         db.session.add(comment)
@@ -138,11 +138,11 @@ def add_story():
         story.title = request.form['title']
         story.body = request.form['body']
         story.pub_date = datetime.datetime.now()
-        user_list = User.query.filter_by(name=request.form['author'])
+        author = User.query.filter_by(name=request.form['author']).first()
 
         # find the author by name.
-        if user_list.count() > 0:
-            story.author = user_list.first()
+        if author is not None:
+            story.author = author
 
         #if the author does not exist, create a new one
         else:
@@ -161,11 +161,11 @@ def add_story():
 
 @app.route('/users/<username>/')
 def show_user(username):
-    user_list = User.query.filter_by(name=username)
-    if user_list.count() == 0:
+    user = User.query.filter_by(name=username).first()
+    if user is None:
         return error_404()
     else:
-        return render_template('user.html', user = user_list.first())
+        return render_template('user.html', user = user)
 
 def error_404():
     return render_template('404.html')

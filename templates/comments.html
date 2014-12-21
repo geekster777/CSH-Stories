@@ -1,6 +1,6 @@
 {% macro show_comments(comments, story) %}
   <ul class="comments">
-    {% for comment in comments %}
+    {% for comment in comments|sort(attribute='score', reverse=True) %}
       <li>
         {{ comment.body|safe }}
         <br>
