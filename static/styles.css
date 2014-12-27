@@ -24,19 +24,18 @@ body {
 
 header {
   color:#FFF;
-  padding:0 25px;
-  background:#000;
-  overflow:auto;
+  padding:0;
+  background:#333;
 }
 
 header a {
   color:#FFF;
   text-decoration:none;
-  padding:25px;
+  padding:0 10px;
 }
 
 header a:hover {
-  background:#333;
+  background:#000;
 }
 
 header #logo {
@@ -51,7 +50,7 @@ header #logo:hover {
 header #search {
   max-width:100%;
   overflow:hidden;
-  padding:20px 25px 0 25px;
+  padding:5px 25px 0 25px;
 }
 
 header #search input {
@@ -60,7 +59,7 @@ header #search input {
 
 header #nav {
   float:right;
-  padding:25px 0;
+  padding:10px 0;
   margin:0;
 }
 
