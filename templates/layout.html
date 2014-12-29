@@ -3,15 +3,23 @@
   <head>
     <title>Stories</title>
     <link rel="stylesheet" href="/static/css/foundation.css">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
   </head>
   <body>
     <div class="container">
       {% include 'header.html' %}
-      <div class="inner">
+      <div id="content">
         {% block body %}{% endblock %}
       </div>
       {% include 'footer.html' %}
     </div>
+    
+    <!-- Scripts -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/foundation.min.js"></script>
+    <script>
+    $(document).foundation();
+    </script>
   </body>
 </html>
