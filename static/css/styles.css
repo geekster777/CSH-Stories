@@ -61,6 +61,10 @@ header {
   width:100%;
 }
 
+.title-area {
+  height:30px;
+}
+
 nav.top-bar.expanded {
   background:#111;
 }
@@ -147,6 +151,37 @@ footer {
 
 .button:hover, .button:focus {
   background:#380004;
+}
+
+.comments {
+  margin-left:0;
+}
+
+.comments .comments {
+  margin-left:25px;
+}
+
+.comments .comment-header {
+  background:#67191F;
+  color:#FFF;
+  padding:2px 5px;
+}
+
+.comments .comment-header a {
+  float:right;
+  color:#FFF;
+  padding:0 5px;
+}
+
+.comments .comment-content {
+  background:#EEE;
+  padding:10px;
+  margin-bottom:25px;
+  overflow:auto;
+}
+
+.comment-content .button {
+  float:right;
 }
 
 .comments li {

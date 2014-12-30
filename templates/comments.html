@@ -2,22 +2,18 @@
   <ul class="comments">
     {% for comment in comments|sort(attribute='score', reverse=True) %}
       <li>
-        {{ comment.body|safe }}
-        <br>
-        <a href="/users/{{ comment.author.name }}/">{{ comment.author.name }}</a>
-        <a class="reply-btn">Reply</a>
-        <br>
-        Comment id: {{ comment.id }}
-        
-        Score: {{ comment.score }}
-        <form action="/stories/{{ story.id }}/upvote/" method="POST">
-          <label>
-            Username:
-            <input type="text" name="author" />
-          </label>
-          <input type="hidden" name="comment" value="{{comment.id}}" />
-          <input class="button" type="submit" value="Upvote" />
-        </form>
+        <div class="comment-header">
+          Comment id: {{ comment.id }}        
+          Score: {{ comment.score }}
+          <a href="/users/{{ comment.author.name }}/">{{ comment.author.name }}</a>
+          <a class="reply-btn">Reply</a>
+        </div>
+        <div class="comment-content">
+          {{ comment.body|safe }}
+          <a href="/stories/{{ story.id }}/upvote/{{ comment.id }}" class="button">
+            +1
+          </a>
+        </div>
 
         {% if comment.comments is defined %}
           {{ show_comments(comment.comments, story) }}

@@ -3,37 +3,24 @@
   <h2>{{ story.title }}</h2>
   <div class="story-content">
     {{ story.body|safe }}
+    <br>
     <a href="/users/{{ story.author.name }}">{{ story.author.name }}</a>
-    Score: {{ story.score }}
-    <form action="/stories/{{ story.id }}/upvote/" method="POST">
-      <label>
-        Username:
-        <input type="text" name="author" />
-      </label>
-      <input type="submit" value="Upvote" class="button" />
-    </form>
+    Score: {{ story.score }}<br>
+    <a href="/stories/{{ story.id }}/upvote/" class="button">+1</a>
   </div>
+  
+  <h4>Add a comment</h4>
+  <form action="/stories/{{ story.id }}/comment/" method="POST">
+    <label>
+      Comment<br>
+      <textarea name="body"></textarea>
+    </label><br>
+    <input type="submit" value="Submit" class="button" />
+    <input type="reset" value="Cancel" class="button" />
+  </form>
   
   <h4>Comments</h4>
   {% from 'comments.html' import show_comments %}
   {{ show_comments(story.comments, story) }}
 
-  
-  <h4>Add a comment</h4>
-  <form action="/stories/{{ story.id }}/comment/" method="POST">
-    <label>
-      Author<br>
-      <input type="text" name="author" />
-    </label><br>
-    <label>
-      Comment<br>
-      <textarea name="body"></textarea>
-    </label><br>
-    <label>
-      Comment Reply (optional)<br>
-      <input type="number" name="reply_comment" />
-    </label><br>
-    <input type="submit" value="Submit" class="button" />
-    <input type="reset" value="Cancel" class="button" />
-  </form>
 {% endblock %}
