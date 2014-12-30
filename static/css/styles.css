@@ -44,8 +44,10 @@ header {
   padding:0;
   background:url("/static/img/header.jpg") no-repeat;
   width:100%;
-  min-height:200px;
+  min-height:100px;
   background-size:100%;
+  overflow:auto;
+  padding-top:30px;
 }
 
 .top-bar {
@@ -53,6 +55,17 @@ header {
   opacity:0.3;
   transition:all 1s;
   height:30px;
+  position:fixed;
+  top:0;
+  width:100%;
+}
+
+nav.top-bar.expanded {
+  background:#111;
+}
+
+nav.top-bar.expanded .title-area {
+  background:transparent;
 }
 
 .top-bar a, .top-bar-section li:not(.has-form) a:not(.button) {
@@ -63,7 +76,7 @@ header {
 }
 
 .top-bar:hover {
-  opacity:0.6;
+  opacity:0.8;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button) {
@@ -81,14 +94,23 @@ header li:hover a, header #nav li:hover a {
   color:#FFF;
 }
 
-header #search {
-  max-width:100%;
-  overflow:hidden;
-  padding:5px 25px 0 25px;
+#logo {
+  max-height:100px;
+  padding:15px;
+  float:left;
 }
 
-header #search input {
-  width:100%;
+#title {
+  font-size:48px;
+  margin:20px 0;
+  color:#FFF;
+  line-height:32px;
+  text-shadow:#491235 0px 0px 10px;
+}
+
+#title small {
+  color:#FFF;
+  font-size:24px;
 }
 
 /* Footer */
