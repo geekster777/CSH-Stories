@@ -2,3 +2,5 @@ stories.db
 settings.py
 venv
 __pycache__
+.session-lock
+.session-cache

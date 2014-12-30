@@ -1,12 +1,19 @@
 import os, sys, datetime
 from settings import db_config
-from flask import Flask, request, session, g, redirect, url_for, abort
+from flask import Flask, request, g, redirect, url_for, abort
 from flask import render_template, flash
 from flask.ext.sqlalchemy import SQLAlchemy
+from beaker.middleware import SessionMiddleware
 
 app = Flask(__name__)
 app.config.update(db_config)
 db = SQLAlchemy(app)
+
+session_opts = {
+    'session.type': 'file',
+    'session.lock_dir': '.session-lock',
+    'session.file_dir': '.session-cache'
+}
 
 class Story(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -40,6 +47,9 @@ class Upvote(db.Model):
     comment_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+def get_logged_in_user():
+    return 'hilton'
+
 @app.route('/')
 def home():
     return render_template('index.html', stories=Story.query.all())
@@ -59,7 +69,13 @@ def show_story(story_id):
 
 @app.route('/stories/<story_id>/comment/', methods=['POST'])
 def comment_story(story_id):
-    username = request.form['author']
+    session = request.environ['beaker.session']
+    
+    if not session.has_key('user'):
+        session['user'] = get_logged_in_user()
+        session.save()
+
+    username = session['user']
     user = User.query.filter_by(name=username).first()
 
     story = Story.query.filter_by(id=story_id).first()
@@ -75,7 +91,7 @@ def comment_story(story_id):
             db.session.add(user)
             comment.author = user
 
-        if request.form['reply_comment'].isdigit():
+        if 'reply_comment' in request.form and request.form['reply_comment'].isdigit():
             comment_id = int(request.form['reply_comment'])
             comment = Comment.query.filter_by(id=comment_id).first()
             if comment is not None:
@@ -89,19 +105,26 @@ def comment_story(story_id):
     else:
         return error_404()
 
-@app.route('/stories/<story_id>/upvote/', methods=['POST'])
-def upvote_story(story_id):
+@app.route('/stories/<story_id>/upvote/', defaults={'comment_id': None})
+@app.route('/stories/<story_id>/upvote/<comment_id>/')
+def upvote_story(story_id, comment_id):
+    session = request.environ['beaker.session']
+
     upvote = Upvote()
     
-    username = request.form['author']
+    if not session.has_key('user'):
+        session['user'] = get_logged_in_user()
+        session.save()
+    
+    username = session['user']
     user = User.query.filter_by(name=username).first()
     if user is not None:
         upvote.author = user
     else:
         return error_404()
     
-    if 'comment' in request.form and request.form['comment'].isdigit():
-        comment = Comment.query.filter_by(id=int(request.form['comment'])).first()
+    if comment_id is not None and comment_id.isdigit():
+        comment = Comment.query.filter_by(id=int(comment_id)).first()
         if comment is not None:
             upvote.comment_id = comment.id
         else:
@@ -174,5 +197,6 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == 'initdb':
         db.create_all()
     else:
+        app.wsgi_app = SessionMiddleware(app.wsgi_app, session_opts)
         app.run()
 
