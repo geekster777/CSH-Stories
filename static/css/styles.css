@@ -4,7 +4,7 @@
 
 body {
   width:100%;
-  background:#CCC;
+  background:#2D001C;
   margin:0;
   padding:0;
   color:#2D001C;
@@ -31,6 +31,7 @@ h1,h2,h3,h4,h5,h6 {
 #content {
   max-width:1000px;
   margin:0 auto;
+  padding:25px;
 }
 
 .inner, footer {
@@ -106,6 +107,7 @@ header li:hover a, header #nav li:hover a {
   color:#FFF;
   line-height:32px;
   text-shadow:#491235 0px 0px 10px;
+  float:left;
 }
 
 #title small {
@@ -116,7 +118,7 @@ header li:hover a, header #nav li:hover a {
 /* Footer */
 
 footer {
-  background:#000;
+  background:#2D001C;
   color:#FFF;
 }
 
@@ -136,4 +138,17 @@ footer {
 #story-list .story-content {
   background:#EEE;
   padding:25px;
+}
+
+.button {
+  background:#C91623;
+  border-color:#67191F;
+}
+
+.button:hover, .button:focus {
+  background:#380004;
+}
+
+.comments li {
+  list-style-type:none;
 }
