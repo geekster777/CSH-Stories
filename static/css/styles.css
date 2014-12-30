@@ -145,12 +145,12 @@ footer {
 }
 
 .button {
-  background:#C91623;
-  border-color:#67191F;
+  background:#A1116B;
+  border-color:#52143B;
 }
 
 .button:hover, .button:focus {
-  background:#380004;
+  background:#2D001C;
 }
 
 .comments {
@@ -162,7 +162,7 @@ footer {
 }
 
 .comments .comment-header {
-  background:#67191F;
+  background:#52143B;
   color:#FFF;
   padding:2px 5px;
 }
