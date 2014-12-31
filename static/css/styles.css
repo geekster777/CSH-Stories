@@ -55,12 +55,20 @@ header {
 .top-bar {
   background:#111;
   opacity:0.3;
-  transition:all 1s;
+  transition:all 500ms;
   height:30px;
   position:fixed;
   top:0;
   width:100%;
   z-index:100;
+}
+
+.top-bar.scrolled, .top-bar.scrolled:hover {
+  opacity:0.95;
+}
+
+.top-bar:hover {
+  opacity:0.8;
 }
 
 .title-area {
@@ -80,10 +88,6 @@ nav.top-bar.expanded .title-area {
   line-height:14px;
   padding:8px 15px;
   display:block;
-}
-
-.top-bar:hover {
-  opacity:0.8;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button) {
