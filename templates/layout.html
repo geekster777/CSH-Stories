@@ -13,8 +13,13 @@
   <body>
     <div class="container">
       {% include 'header.html' %}
-      <div id="content">
-        {% block body %}{% endblock %}
+      <div class="row">
+        <div id="content" class="small-12 medium-8 large-9 columns large-offset-1 medium-offset-1">
+          {% block body %}{% endblock %}
+        </div>
+        <div id="sidebar" class="small-0 medium-3 large-2 columns hide-for-small-only">
+          {% include 'sidebar.html' %}
+        </div>
       </div>
       {% include 'footer.html' %}
     </div>

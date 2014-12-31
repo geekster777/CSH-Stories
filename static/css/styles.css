@@ -26,17 +26,29 @@ h1,h2,h3,h4,h5,h6 {
   width:100%;
   background:#FFF;
   margin:0 auto;
+  background:url("/static/img/header.jpg") no-repeat fixed;
+}
+
+.row {
+  max-width:100%;
 }
 
 #content {
-  max-width:1000px;
-  margin:0 auto;
   padding:25px;
   min-height:500px;
+  box-shadow:#999 0 0 5px 0;
+  border-left:#CCC solid 1px;
+  border-right:#CCC solid 1px;
+  background:#FFF;
+
 }
 
 .inner, footer {
   padding:25px;
+}
+
+.row {
+  max-width:100%;
 }
 
 /* Header section */
@@ -44,7 +56,6 @@ h1,h2,h3,h4,h5,h6 {
 header {
   color:#FFF;
   padding:0;
-  background:url("/static/img/header.jpg") no-repeat;
   width:100%;
   min-height:100px;
   background-size:100%;
@@ -123,6 +134,36 @@ header li:hover a, header #nav li:hover a {
 #title small {
   color:#FFF;
   font-size:24px;
+}
+
+/* Sidebar */
+#sidebar {
+  padding:25px 10px;
+}
+#sidebar ul {
+  margin:0;
+}
+
+#sidebar li {
+  width:100%;
+  list-style-type:none;
+}
+
+#sidebar li a {
+  padding:10px 25px;
+  color:#2D001C;
+  font-weight:bold;
+  border:none;
+  display:block;
+  box-shadow:#2D001C 2px 2px 5px -2px;
+  background:#FFF;
+  margin:10px 5px;
+  transition:all 250ms;
+}
+
+#sidebar li a:hover {
+  color:#FFF;
+  background:#A1116B;
 }
 
 /* Footer */
