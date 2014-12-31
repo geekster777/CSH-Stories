@@ -138,7 +138,8 @@ header li:hover a, header #nav li:hover a {
 
 /* Sidebar */
 #sidebar {
-  padding:25px 10px;
+  padding:10px 0 0 10px;
+  overflow:hidden;
 }
 #sidebar ul {
   margin:0;
@@ -147,30 +148,33 @@ header li:hover a, header #nav li:hover a {
 #sidebar li {
   width:100%;
   list-style-type:none;
+  margin:10px 5px;
+  position:relative;
+  box-shadow:#2D001C 2px 2px 5px -2px;
+  overflow:hidden;
 }
 
 #sidebar li a {
   padding:10px 25px;
-  color:#2D001C;
+  color:rgba(255,255,255,0.8);
   font-weight:bold;
   border:none;
   display:block;
-  box-shadow:#2D001C 2px 2px 5px -2px;
-  background:#FFF;
-  margin:10px 5px;
+  background:rgba(80,80,80,0.25);
   transition:all 250ms;
+  margin:0;
 }
 
 #sidebar li a:hover {
   color:#FFF;
-  background:#A1116B;
+  background:#862E65;
 }
 
 /* Footer */
 
 footer {
-  background:#2D001C;
   color:#FFF;
+  text-shadow:#000 0 0 5px;
 }
 
 /* Index and stories */
