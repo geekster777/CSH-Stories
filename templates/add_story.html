@@ -12,7 +12,46 @@
     </label><br>
     <label>
       Content<br>
-      <textarea name="body"></textarea><br>
+      <div id="editor-wrapper">
+        <div id="formatting-container">
+          <span class="ql-format-group">
+            <select title="Font" class="ql-font">
+              <option value="sans-serif" selected>Sans Serif</option>
+              <option value="Georgia, serif">Serif</option>
+              <option value="Monaco, 'Courier New', monospace">Monospace</option>
+            </select>
+            <select title="Size" class="ql-size">
+              <option value="10px">Small</option>
+              <option value="13px" selected>Normal</option>
+              <option value="18px">Large</option>
+              <option value="32px">Huge</option>
+            </select>
+          </span>
+          <span class="ql-format-group">
+            <span title="Bold" class="ql-format-button ql-bold"></span>
+            <span class="ql-format-separator"></span>
+            <span title="Italic" class="ql-format-button ql-italic"></span>
+            <span class="ql-format-separator"></span>
+            <span title="Underline" class="ql-format-button ql-underline"></span>
+          </span>
+          <span class="ql-format-group">
+            <select title="Text Alignment" class="ql-align">
+              <option value="left" selected></option>
+              <option value="center"></option>
+              <option value="right"></option>
+              <option value="justify"></option>
+            </select>
+          </span>
+          <span class="ql-format-group">
+            <span title="Link" class="ql-format-button ql-link"></span>
+            <span class="ql-format-separator"></span>
+            <span title="Image" class="ql-format-button ql-image"></span>
+            <span class="ql-format-separator"></span>
+            <span title="List" class="ql-format-button ql-list"></span>
+          </span>
+        </div>
+        <div id="editor"></div>
+      </div>
     </label>
     <input type="submit" value="Submit" class="button" />
   </form>

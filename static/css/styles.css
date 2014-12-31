@@ -32,6 +32,7 @@ h1,h2,h3,h4,h5,h6 {
   max-width:1000px;
   margin:0 auto;
   padding:25px;
+  min-height:500px;
 }
 
 .inner, footer {
@@ -59,6 +60,7 @@ header {
   position:fixed;
   top:0;
   width:100%;
+  z-index:100;
 }
 
 .title-area {
@@ -186,4 +188,19 @@ footer {
 
 .comments li {
   list-style-type:none;
+}
+
+/* Add story/editor section */
+#editor-wrapper {
+  box-shadow: #CCC 0px 0px 10px 0px;
+  border:#CCC solid 1px;
+  margin:25px 0;
+}
+
+#editor-wrapper #formatting-container {
+  border-bottom:#CCC solid 1px;
+}
+
+#editor {
+  min-height:400px;
 }
